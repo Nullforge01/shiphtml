@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 24: DOM Manipulation - SHIPhtml</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .lesson-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 32px 0; }
+    .lesson-content { padding-right: 16px; }
+    .lesson-content h1 { font-size: 36px; margin-bottom: 8px; }
+    .lesson-content h2 { font-size: 22px; margin: 32px 0 12px; }
+    .lesson-content p { color: var(--text-muted); margin-bottom: 16px; }
+    .lesson-content code {
+      background: var(--surface); padding: 2px 6px; border-radius: 6px;
+      font-family: var(--font-mono); font-size: 14px; border: 1px solid var(--border);
+    }
+    .lesson-content pre {
+      background: var(--surface); padding: 16px; border-radius: var(--radius);
+      border: 1px solid var(--border); overflow-x: auto; margin: 16px 0;
+      font-family: var(--font-mono); font-size: 14px; line-height: 1.5;
+    }
+    .editor-wrap {
+      background: var(--surface); border: 2px solid var(--border);
+      border-radius: var(--radius); overflow: hidden; position: sticky; top: 88px;
+      height: calc(100vh - 120px); display: flex; flex-direction: column;
+    }
+    .editor-bar {
+      padding: 12px 16px; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--bg);
+    }
+    .editor-bar span { font-size: 13px; color: var(--text-muted); font-weight: 600; }
+    #editor {
+      width: 100%; flex: 1; background: #1E1E1E; color: #D4D4D4;
+      font-family: var(--font-mono); font-size: 14px; line-height: 1.6;
+      border: none; outline: none; resize: none; padding: 16px;
+    }
+    #preview {
+      width: 100%; flex: 1; border: none; background: white;
+    }
+    .split { display: flex; flex-direction: column; height: 100%; }
+    .split > div { height: 50%; position: relative; }
+    .split > div:first-child { border-bottom: 2px solid var(--border); }
+    .lesson-nav {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border);
+    }
+    .tip {
+      background: var(--surface); border-left: 3px solid var(--secondary);
+      padding: 16px; border-radius: 8px; margin: 20px 0;
+    }
+    .warning {
+      background: var(--surface); border-left: 3px solid var(--warning);
+      padding: 16px; border-radius: 8px; margin: 20px 0;
+    }
+    @media (max-width: 1024px) {
+      .lesson-wrap { grid-template-columns: 1fr; }
+      .editor-wrap { position: relative; top: 0; height: 600px; }
+      .lesson-content { padding-right: 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <a href="../index.html" class="logo">SHIPhtml</a>
+      <div class="nav-links">
+        <a href="../learn.html" class="active">Lessons</a>
+        <a href="../playground.html">Playground</a>
+        <button class="btn btn-ghost btn-sm" onclick="toggleTheme()" id="themeBtn">☀️</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <div class="lesson-wrap">
+        <div class="lesson-content">
+          <h1>Lesson 24: DOM Manipulation</h1>
+          <p>Time: 12 min | Goal: Create, read, update, delete HTML with JS</p>
+
+          <h2>Selecting Elements</h2>
+          <pre><code>const el = document.getElementById("app"); // by ID
+const btn = document.querySelector(".btn"); // first match CSS
+const items = document.querySelectorAll("li"); // all matches</code></pre>
+          <p><code>querySelector</code> is most flexible. Uses CSS selectors.</p>
+
+          <h2>Creating Elements</h2>
+          <pre><code>const div = document.createElement("div");
+div.textContent = "Hello";
+div.className = "card";
+div.id = "new-card";</code></pre>
+
+          <h2>Inserting Elements</h2>
+          <pre><code>const parent = document.querySelector("#app");
+parent.appendChild(div); // add to end
+parent.prepend(div); // add to start
+parent.insertBefore(div, parent.firstChild);</code></pre>
+
+          <h2>Modifying Elements</h2>
+          <pre><code>el.textContent = "New text"; // text only, safe
+el.innerHTML = "&lt;b&gt;HTML&lt;/b&gt;"; // parses HTML, XSS risk
+el.classList.add("active"); // add class
+el.classList.remove("hidden"); // remove class
+el.classList.toggle("dark"); // add if missing, remove if present
+el.setAttribute("data-id", "123"); // set attribute
+el.style.background = "red"; // inline style</code></pre>
+
+          <div class="warning">
+            <strong>innerHTML danger:</strong> Never do <code>el.innerHTML = userInput</code>. Users can inject <code>&lt;script&gt;</code> tags. Use <code>textContent</code> for user data. Only use <code>innerHTML</code> with trusted HTML strings you control.
+          </div>
+
+          <h2>Event Delegation</h2>
+          <p>Listen on parent instead of 100 children:</p>
+          <pre><code>document.querySelector("ul").addEventListener("click", (e) => {
+  if (e.target.matches("li")) {
+    e.target.classList.toggle("done");
+  }
+});</code></pre>
+
+          <div class="tip">
+            <strong>Batch DOM writes:</strong> Don't update DOM in a loop. Build HTML string/array first, then set <code>innerHTML</code> once. Or use <code>DocumentFragment</code>. Each DOM write triggers reflow.
+          </div>
+
+          <h2>Your Task</h2>
+          <p>Build a dynamic tag creator:</p>
+          <p>1. <code>const tags = [];</code></p>
+          <p>2. <code>function renderTags() {</code></p>
+          <p>3. &nbsp;&nbsp;<code>const wrap = document.querySelector("#tags");</code></p>
+          <p>4. &nbsp;&nbsp;<code>wrap.innerHTML = tags.map((tag, i) => </code></p>
+          <p>5. &nbsp;&nbsp;&nbsp;&nbsp;<code>`&lt;span class="tag"&gt;${tag} &lt;button data-i="${i}"&gt;×&lt;/button&gt;&lt;/span&gt;`</code></p>
+          <p>6. &nbsp;&nbsp;<code>).join('');</code></p>
+          <p>7. <code>}</code></p>
+          <p>8. <code>document.querySelector("#add").onclick = () => {</code></p>
+          <p>9. &nbsp;&nbsp;<code>const input = document.querySelector("#input");</code></p>
+          <p>10. &nbsp;&nbsp;<code>if (input.value) { tags.push(input.value); input.value = ""; renderTags(); }</code></p>
+          <p>11. <code>};</code></p>
+          <p>12. <code>document.querySelector("#tags").onclick = (e) => {</code></p>
+          <p>13. &nbsp;&nbsp;<code>if (e.target.matches("button")) { tags.splice(e.target.dataset.i, 1); renderTags(); }</code></p>
+          <p>14. <code>};</code></p>
+          <p>Add tags, click × to remove. All DOM managed by JS.</p>
+
+          <div class="lesson-nav">
+            <a href="lesson-23.html" class="btn btn-ghost">← Lesson 23</a>
+            <button class="btn btn-primary" onclick="completeLesson()">Mark Complete →</button>
+          </div>
+        </div>
+
+        <div class="editor-wrap">
+          <div class="editor-bar">
+            <span>index.html</span>
+            <button class="btn btn-primary btn-sm" onclick="runCode()">Run ▶</button>
+          </div>
+          <div class="split">
+            <div>
+              <textarea id="editor" spellcheck="false">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Tag Creator&lt;/title&gt;
+    &lt;style&gt;
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #F8FAFC;
+        padding: 40px 20px;
+      }
+      .app {
+        background: white;
+        padding: 32px;
+        border-radius: 20px;
+        border: 2px solid #E2E8F0;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      h1 {
+        margin: 0 0 24px;
+        text-align: center;
+      }
+      .input-row {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+      #input {
+        flex: 1;
+        padding: 12px;
+        border: 2px solid #E2E8F0;
+        border-radius: 8px;
+        font-size: 16px;
+      }
+      #add {
+        background: #2563EB;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      #tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        min-height: 40px;
+      }
+      .tag {
+        background: #EFF6FF;
+        color: #2563EB;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .tag button {
+        background: #2563EB;
+        color: white;
+        border: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 14px;
+        line-height: 1;
+        padding: 0;
+      }
+      .empty {
+        color: #64748B;
+        font-size: 14px;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div class="app"&gt;
+      &lt;h1&gt;Tag Creator&lt;/h1&gt;
+      &lt;div class="input-row"&gt;
+        &lt;input type="text" id="input" placeholder="Add a tag..."&gt;
+        &lt;button id="add"&gt;Add&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div id="tags"&gt;
+        &lt;span class="empty"&gt;No tags yet&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;script&gt;
+      // Add your JS here
+      
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</textarea>
+            </div>
+            <div>
+              <iframe id="preview"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/main.js"></script>
+  <script>
+    function runCode() {
+      const code = document.getElementById('editor').value;
+      const preview = document.getElementById('preview');
+      preview.srcdoc = code;
+    }
+
+    function completeLesson() {
+      localStorage.setItem('lesson-24-complete', 'true');
+      alert('Lesson 24 complete! 24 day streak 🔥');
+      window.location.href = '../learn.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      runCode();
+    });
+  </script>
+</body>
+                   </html>
