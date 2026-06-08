@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 16: Pseudo-classes - SHIPhtml</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .lesson-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 32px 0; }
+    .lesson-content { padding-right: 16px; }
+    .lesson-content h1 { font-size: 36px; margin-bottom: 8px; }
+    .lesson-content h2 { font-size: 22px; margin: 32px 0 12px; }
+    .lesson-content p { color: var(--text-muted); margin-bottom: 16px; }
+    .lesson-content code {
+      background: var(--surface); padding: 2px 6px; border-radius: 6px;
+      font-family: var(--font-mono); font-size: 14px; border: 1px solid var(--border);
+    }
+    .lesson-content pre {
+      background: var(--surface); padding: 16px; border-radius: var(--radius);
+      border: 1px solid var(--border); overflow-x: auto; margin: 16px 0;
+      font-family: var(--font-mono); font-size: 14px; line-height: 1.5;
+    }
+    .editor-wrap {
+      background: var(--surface); border: 2px solid var(--border);
+      border-radius: var(--radius); overflow: hidden; position: sticky; top: 88px;
+      height: calc(100vh - 120px); display: flex; flex-direction: column;
+    }
+    .editor-bar {
+      padding: 12px 16px; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--bg);
+    }
+    .editor-bar span { font-size: 13px; color: var(--text-muted); font-weight: 600; }
+    #editor {
+      width: 100%; flex: 1; background: #1E1E1E; color: #D4D4D4;
+      font-family: var(--font-mono); font-size: 14px; line-height: 1.6;
+      border: none; outline: none; resize: none; padding: 16px;
+    }
+    #preview {
+      width: 100%; flex: 1; border: none; background: white;
+    }
+    .split { display: flex; flex-direction: column; height: 100%; }
+    .split > div { height: 50%; position: relative; }
+    .split > div:first-child { border-bottom: 2px solid var(--border); }
+    .lesson-nav {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border);
+    }
+    .tip {
+      background: var(--surface); border-left: 3px solid var(--secondary);
+      padding: 16px; border-radius: 8px; margin: 20px 0;
+    }
+    .state-grid {
+      display: grid; gap: 8px; margin: 20px 0; font-size: 13px;
+    }
+    .state-item {
+      padding: 10px 12px; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+    .state-item code { color: var(--primary); }
+    @media (max-width: 1024px) {
+      .lesson-wrap { grid-template-columns: 1fr; }
+      .editor-wrap { position: relative; top: 0; height: 600px; }
+      .lesson-content { padding-right: 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <a href="../index.html" class="logo">SHIPhtml</a>
+      <div class="nav-links">
+        <a href="../learn.html" class="active">Lessons</a>
+        <a href="../playground.html">Playground</a>
+        <button class="btn btn-ghost btn-sm" onclick="toggleTheme()" id="themeBtn">☀️</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <div class="lesson-wrap">
+        <div class="lesson-content">
+          <h1>Lesson 16: Pseudo-classes</h1>
+          <p>Time: 8 min | Goal: Style elements based on user interaction + position</p>
+
+          <h2>Interaction States</h2>
+          <div class="state-grid">
+            <div class="state-item"><code>:hover</code> - Mouse over element</div>
+            <div class="state-item"><code>:focus</code> - Keyboard tab or click into input</div>
+            <div class="state-item"><code>:active</code> - While clicking/pressing</div>
+            <div class="state-item"><code>:visited</code> - Links user already clicked</div>
+          </div>
+
+          <h2>Example: Button States</h2>
+          <pre><code>.btn {
+  background: #2563EB;
+  transition: all 0.2s;
+}
+.btn:hover {
+  background: #1D4ED8;
+  transform: translateY(-2px);
+}
+.btn:active {
+  transform: translateY(0);
+}</code></pre>
+
+          <h2>Position Selectors</h2>
+          <p>Target elements by their position without classes:</p>
+          <pre><code>li:first-child { font-weight: 700; }
+li:last-child { border: none; }
+li:nth-child(odd) { background: #F1F5F9; }
+li:nth-child(3n) { color: #2563EB; }</code></pre>
+
+          <h2>:nth-child Formula</h2>
+          <p><code>an+b</code> pattern. <code>a</code> = cycle size, <code>b</code> = offset:</p>
+          <p>1. <code>2n</code> = every 2nd item: 2, 4, 6...</p>
+          <p>2. <code>3n+1</code> = 1, 4, 7...</p>
+          <p>3. <code>-n+3</code> = first 3 items</p>
+
+          <div class="tip">
+            <strong>Mobile rule:</strong> Always add <code>:focus</code> styles to match <code>:hover</code>. Mobile has no hover. Keyboard users need focus states. Never do <code>outline: none</code> without replacing it.
+          </div>
+
+          <h2>Your Task</h2>
+          <p>Build an interactive list:</p>
+          <p>1. <code>.item:hover</code> → <code>background: #EFF6FF;</code> + <code>transform: translateX(4px);</code></p>
+          <p>2. <code>.item:active</code> → <code>background: #DBEAFE;</code></p>
+          <p>3. <code>.item:nth-child(odd)</code> → <code>background: #F8FAFC;</code></p>
+          <p>4. <code>.item:first-child</code> → <code>border-top: 2px solid #2563EB;</code></p>
+          <p>5. Add <code>transition: all 0.2s;</code> to <code>.item</code> for smooth animations</p>
+          <p>Hover, click, and check the zebra striping.</p>
+
+          <div class="lesson-nav">
+            <a href="lesson-15.html" class="btn btn-ghost">← Lesson 15</a>
+            <button class="btn btn-primary" onclick="completeLesson()">Mark Complete →</button>
+          </div>
+        </div>
+
+        <div class="editor-wrap">
+          <div class="editor-bar">
+            <span>index.html</span>
+            <button class="btn btn-primary btn-sm" onclick="runCode()">Run ▶</button>
+          </div>
+          <div class="split">
+            <div>
+              <textarea id="editor" spellcheck="false">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Pseudo-classes&lt;/title&gt;
+    &lt;style&gt;
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #F8FAFC;
+        padding: 40px 20px;
+      }
+      
+      .container {
+        max-width: 500px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 16px;
+        border: 2px solid #E2E8F0;
+        overflow: hidden;
+      }
+      
+      h1 {
+        padding: 24px;
+        margin: 0;
+        border-bottom: 1px solid #E2E8F0;
+      }
+      
+      .list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      
+      .item {
+        padding: 16px 24px;
+        border-bottom: 1px solid #E2E8F0;
+        cursor: pointer;
+        /* Add transition */
+        
+      }
+      
+      /* Add :hover styles */
+      
+      
+      /* Add :active styles */
+      
+      
+      /* Add :nth-child(odd) styles */
+      
+      
+      /* Add :first-child styles */
+      
+      
+      .item:last-child {
+        border-bottom: none;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div class="container"&gt;
+      &lt;h1&gt;Interactive List&lt;/h1&gt;
+      &lt;ul class="list"&gt;
+        &lt;li class="item"&gt;Learn HTML&lt;/li&gt;
+        &lt;li class="item"&gt;Learn CSS&lt;/li&gt;
+        &lt;li class="item"&gt;Learn JavaScript&lt;/li&gt;
+        &lt;li class="item"&gt;Build Projects&lt;/li&gt;
+        &lt;li class="item"&gt;Get Hired&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</textarea>
+            </div>
+            <div>
+              <iframe id="preview"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/main.js"></script>
+  <script>
+    function runCode() {
+      const code = document.getElementById('editor').value;
+      const preview = document.getElementById('preview');
+      preview.srcdoc = code;
+    }
+
+    function completeLesson() {
+      localStorage.setItem('lesson-16-complete', 'true');
+      alert('Lesson 16 complete! 16 day streak 🔥');
+      window.location.href = '../learn.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      runCode();
+    });
+  </script>
+</body>
+  </html>
