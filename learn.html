@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lessons - HTMLBase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .lessons-header { padding: 48px 0 32px; }
+    .lessons-header h1 { font-size: 40px; margin-bottom: 8px; }
+    .progress-bar {
+      height: 8px; background: var(--border); border-radius: 999px;
+      margin: 24px 0; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; background: var(--primary); width: 0%;
+      transition: width 0.3s ease;
+    }
+    .lesson-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px; margin-top: 32px;
+    }
+    .lesson-card {
+      padding: 20px; background: var(--surface);
+      border: 2px solid var(--border); border-radius: var(--radius);
+      text-decoration: none; color: var(--text); display: block;
+      transition: all 0.2s;
+    }
+    .lesson-card:hover { border-color: var(--secondary); transform: translateY(-2px); }
+    .lesson-card.completed { border-color: var(--success); }
+    .lesson-card.completed .lesson-num { background: var(--success); color: white; }
+    .lesson-num {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: var(--border); display: inline-flex;
+      align-items: center; justify-content: center;
+      font-weight: 700; font-size: 14px; margin-bottom: 12px;
+    }
+    .lesson-card h3 { font-size: 18px; margin-bottom: 4px; }
+    .lesson-card p { color: var(--text-muted); font-size: 14px; }
+    .lesson-meta {
+      display: flex; gap: 12px; margin-top: 12px;
+      font-size: 13px; color: var(--text-muted);
+    }
+    @media (max-width: 768px) {
+      .lesson-grid { grid-template-columns: 1fr; }
+      .lessons-header h1 { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">Shiphtml</a>
+      <div class="nav-links">
+        <a href="learn.html" class="active">Lessons</a>
+        <a href="playground.html">Playground</a>
+        <button class="btn btn-ghost btn-sm" onclick="toggleTheme()" id="themeBtn">☀️</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <section class="lessons-header">
+        <h1>25 Lessons. Zero to shipped.</h1>
+        <p style="color: var(--text-muted);">Each lesson = 1 concept + 1 live editor. Complete them all to build 3 real projects.</p>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 14px; color: var(--text-muted);">
+          <span id="progressText">0 of 25 complete</span>
+          <span id="streak"></span>
+        </div>
+      </section>
+
+      <section class="lesson-grid" id="lessonGrid">
+        <!-- Lessons injected by JS -->
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      Made for beginners. No login needed.
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    const lessons = [
+      { num: 1, title: "HTML Tags & Structure", desc: "Your first webpage skeleton", time: "5 min" },
+      { num: 2, title: "Headings & Paragraphs", desc: "Text hierarchy that matters", time: "5 min" },
+      { num: 3, title: "Links & Images", desc: "Connect pages + show pictures", time: "7 min" },
+      { num: 4, title: "Lists", desc: "Ordered, unordered, nested", time: "5 min" },
+      { num: 5, title: "CSS Selectors", desc: "Target elements with precision", time: "8 min" },
+      { num: 6, title: "Colors & Units", desc: "Hex, rgb, rem, px explained", time: "6 min" },
+      { num: 7, title: "Box Model", desc: "Margin, padding, border secrets", time: "10 min" },
+      { num: 8, title: "Flexbox Basics", desc: "Layout without pain", time: "12 min" },
+      { num: 9, title: "CSS Grid", desc: "2D layouts made easy", time: "12 min" },
+      { num: 10, title: "Forms & Inputs", desc: "Collect user data properly", time: "10 min" },
+      { num: 11, title: "Buttons & States", desc: "Hover, active, disabled", time: "7 min" },
+      { num: 12, title: "JavaScript Variables", desc: "Store data with let/const", time: "8 min" },
+      { num: 13, title: "Functions", desc: "Reuse code like a pro", time: "10 min" },
+      { num: 14, title: "DOM Selection", desc: "Find elements with JS", time: "8 min" },
+      { num: 15, title: "Events", desc: "Click, input, load handlers", time: "10 min" },
+      { num: 16, title: "LocalStorage", desc: "Save data in the browser", time: "8 min" },
+      { num: 17, title: "Arrays & Loops", desc: "Handle lists of data", time: "12 min" },
+      { num: 18, title: "Objects", desc: "Group related data", time: "10 min" },
+      { num: 19, title: "Fetch API", desc: "Load data from anywhere", time: "12 min" },
+      { num: 20, title: "Project: Portfolio", desc: "Ship your first site", time: "20 min" },
+      { num: 21, title: "Media Queries", desc: "Mobile-friendly layouts", time: "10 min" },
+      { num: 22, title: "CSS Animations", desc: "Smooth transitions", time: "10 min" },
+      { num: 23, title: "Project: Gallery", desc: "Image grid with lightbox", time: "25 min" },
+      { num: 24, title: "Project: Todo App", desc: "CRUD with LocalStorage", time: "30 min" },
+      { num: 25, title: "Deploy to Web", desc: "GitHub Pages in 5 mins", time: "10 min" }
+    ];
+
+    function renderLessons() {
+      const grid = document.getElementById('lessonGrid');
+      const completed = getProgress();
+      
+      document.getElementById('progressFill').style.width = `${(completed / 25) * 100}%`;
+      document.getElementById('progressText').textContent = `${completed} of 25 complete`;
+      
+      grid.innerHTML = lessons.map(lesson => {
+        const isDone = localStorage.getItem(`lesson-${lesson.num}-complete`) === 'true';
+        return `
+          <a href="lessons/lesson-${lesson.num}.html" class="lesson-card ${isDone ? 'completed' : ''}">
+            <div class="lesson-num">${lesson.num}</div>
+            <h3>${lesson.title}</h3>
+            <p>${lesson.desc}</p>
+            <div class="lesson-meta">
+              <span>⏱ ${lesson.time}</span>
+              <span>${isDone ? '✓ Done' : ''}</span>
+            </div>
+          </a>
+        `;
+      }).join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', renderLessons);
+  </script>
+</body>
+</html>
