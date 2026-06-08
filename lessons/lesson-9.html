@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 9: Flexbox Basics - SHIPhtml</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .lesson-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 32px 0; }
+    .lesson-content { padding-right: 16px; }
+    .lesson-content h1 { font-size: 36px; margin-bottom: 8px; }
+    .lesson-content h2 { font-size: 22px; margin: 32px 0 12px; }
+    .lesson-content p { color: var(--text-muted); margin-bottom: 16px; }
+    .lesson-content code {
+      background: var(--surface); padding: 2px 6px; border-radius: 6px;
+      font-family: var(--font-mono); font-size: 14px; border: 1px solid var(--border);
+    }
+    .lesson-content pre {
+      background: var(--surface); padding: 16px; border-radius: var(--radius);
+      border: 1px solid var(--border); overflow-x: auto; margin: 16px 0;
+      font-family: var(--font-mono); font-size: 14px; line-height: 1.5;
+    }
+    .editor-wrap {
+      background: var(--surface); border: 2px solid var(--border);
+      border-radius: var(--radius); overflow: hidden; position: sticky; top: 88px;
+      height: calc(100vh - 120px); display: flex; flex-direction: column;
+    }
+    .editor-bar {
+      padding: 12px 16px; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--bg);
+    }
+    .editor-bar span { font-size: 13px; color: var(--text-muted); font-weight: 600; }
+    #editor {
+      width: 100%; flex: 1; background: #1E1E1E; color: #D4D4D4;
+      font-family: var(--font-mono); font-size: 14px; line-height: 1.6;
+      border: none; outline: none; resize: none; padding: 16px;
+    }
+    #preview {
+      width: 100%; flex: 1; border: none; background: white;
+    }
+    .split { display: flex; flex-direction: column; height: 100%; }
+    .split > div { height: 50%; position: relative; }
+    .split > div:first-child { border-bottom: 2px solid var(--border); }
+    .lesson-nav {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border);
+    }
+    .tip {
+      background: var(--surface); border-left: 3px solid var(--secondary);
+      padding: 16px; border-radius: 8px; margin: 20px 0;
+    }
+    .flex-demo {
+      display: flex; gap: 8px; margin: 16px 0; padding: 12px;
+      background: var(--surface); border-radius: 8px; border: 1px solid var(--border);
+    }
+    .flex-item {
+      background: var(--primary); color: white; padding: 8px 12px;
+      border-radius: 6px; font-size: 12px; text-align: center;
+    }
+    @media (max-width: 1024px) {
+      .lesson-wrap { grid-template-columns: 1fr; }
+      .editor-wrap { position: relative; top: 0; height: 600px; }
+      .lesson-content { padding-right: 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <a href="../index.html" class="logo">SHIPhtml</a>
+      <div class="nav-links">
+        <a href="../learn.html" class="active">Lessons</a>
+        <a href="../playground.html">Playground</a>
+        <button class="btn btn-ghost btn-sm" onclick="toggleTheme()" id="themeBtn">☀️</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <div class="lesson-wrap">
+        <div class="lesson-content">
+          <h1>Lesson 9: Flexbox Basics</h1>
+          <p>Time: 10 min | Goal: Align items without float hacks or pain</p>
+
+          <h2>What is Flexbox?</h2>
+          <p>Flexbox = 1D layout system. Put <code>display: flex</code> on a parent. Its children become flex items that you can align easily.</p>
+          <pre><code>.container {
+  display: flex;
+}</code></pre>
+
+          <h2>Main Axis vs Cross Axis</h2>
+          <p>Default: main axis = left to right. Cross axis = top to bottom.</p>
+          <p><strong>justify-content</strong> = main axis. <strong>align-items</strong> = cross axis.</p>
+
+          <div class="flex-demo" style="justify-content: space-between;">
+            <div class="flex-item">1</div>
+            <div class="flex-item">2</div>
+            <div class="flex-item">3</div>
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted);">^ <code>justify-content: space-between</code></p>
+
+          <h2>The 4 Key Properties</h2>
+          <p><strong>1. justify-content</strong> - Distribute items on main axis:</p>
+          <pre><code>flex-start | center | space-between | space-around | flex-end</code></pre>
+
+          <p><strong>2. align-items</strong> - Align items on cross axis:</p>
+          <pre><code>stretch | center | flex-start | flex-end</code></pre>
+
+          <p><strong>3. gap</strong> - Space between items. No margin hacks needed:</p>
+          <pre><code>.container { gap: 16px; }</code></pre>
+
+          <p><strong>4. flex-direction</strong> - Flip axes. <code>column</code> = top to bottom:</p>
+          <pre><code>.container { flex-direction: column; }</code></pre>
+
+          <div class="tip">
+            <strong>Mobile-first win:</strong> Flexbox + <code>flex-direction: column</code> on mobile, <code>row</code> on desktop. One layout, two breakpoints. No duplicate HTML.
+          </div>
+
+          <h2>Your Task</h2>
+          <p>Build a nav bar in the editor:</p>
+          <p>1. <code>.navbar</code> → <code>display: flex;</code> + <code>justify-content: space-between;</code> + <code>align-items: center;</code></p>
+          <p>2. <code>.nav-links</code> → <code>display: flex;</code> + <code>gap: 16px;</code></p>
+          <p>3. Add <code>padding: 16px;</code> to <code>.navbar</code></p>
+          <p>Click <strong>Run</strong> to see perfect nav alignment.</p>
+
+          <div class="lesson-nav">
+            <a href="lesson-8.html" class="btn btn-ghost">← Lesson 8</a>
+            <button class="btn btn-primary" onclick="completeLesson()">Mark Complete →</button>
+          </div>
+        </div>
+
+        <div class="editor-wrap">
+          <div class="editor-bar">
+            <span>index.html</span>
+            <button class="btn btn-primary btn-sm" onclick="runCode()">Run ▶</button>
+          </div>
+          <div class="split">
+            <div>
+              <textarea id="editor" spellcheck="false">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Flexbox Nav&lt;/title&gt;
+    &lt;style&gt;
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+      
+      .navbar {
+        background: #0F172A;
+        color: white;
+        /* Add display, justify-content, align-items, padding */
+        
+      }
+      
+      .logo {
+        font-weight: 700;
+        font-size: 20px;
+      }
+      
+      .nav-links {
+        /* Add display, gap */
+        
+      }
+      
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;nav class="navbar"&gt;
+      &lt;div class="logo"&gt;SHIPhtml&lt;/div&gt;
+      &lt;div class="nav-links"&gt;
+        &lt;a href="#"&gt;Learn&lt;/a&gt;
+        &lt;a href="#"&gt;Playground&lt;/a&gt;
+        &lt;a href="#"&gt;Pro&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/nav&gt;
+    
+    &lt;main style="padding: 40px; text-align: center;"&gt;
+      &lt;h1&gt;Flexbox wins&lt;/h1&gt;
+      &lt;p&gt;Logo left, links right. No floats. No clearfix.&lt;/p&gt;
+    &lt;/main&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</textarea>
+            </div>
+            <div>
+              <iframe id="preview"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/main.js"></script>
+  <script>
+    function runCode() {
+      const code = document.getElementById('editor').value;
+      const preview = document.getElementById('preview');
+      preview.srcdoc = code;
+    }
+
+    function completeLesson() {
+      localStorage.setItem('lesson-9-complete', 'true');
+      alert('Lesson 9 complete! 9 day streak 🔥');
+      window.location.href = '../learn.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      runCode();
+    });
+  </script>
+</body>
+</html>
