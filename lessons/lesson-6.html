@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 6: Colors & Backgrounds - SHIPhtml</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .lesson-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 32px 0; }
+    .lesson-content { padding-right: 16px; }
+    .lesson-content h1 { font-size: 36px; margin-bottom: 8px; }
+    .lesson-content h2 { font-size: 22px; margin: 32px 0 12px; }
+    .lesson-content p { color: var(--text-muted); margin-bottom: 16px; }
+    .lesson-content code {
+      background: var(--surface); padding: 2px 6px; border-radius: 6px;
+      font-family: var(--font-mono); font-size: 14px; border: 1px solid var(--border);
+    }
+    .lesson-content pre {
+      background: var(--surface); padding: 16px; border-radius: var(--radius);
+      border: 1px solid var(--border); overflow-x: auto; margin: 16px 0;
+      font-family: var(--font-mono); font-size: 14px; line-height: 1.5;
+    }
+    .editor-wrap {
+      background: var(--surface); border: 2px solid var(--border);
+      border-radius: var(--radius); overflow: hidden; position: sticky; top: 88px;
+      height: calc(100vh - 120px); display: flex; flex-direction: column;
+    }
+    .editor-bar {
+      padding: 12px 16px; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--bg);
+    }
+    .editor-bar span { font-size: 13px; color: var(--text-muted); font-weight: 600; }
+    #editor {
+      width: 100%; flex: 1; background: #1E1E1E; color: #D4D4D4;
+      font-family: var(--font-mono); font-size: 14px; line-height: 1.6;
+      border: none; outline: none; resize: none; padding: 16px;
+    }
+    #preview {
+      width: 100%; flex: 1; border: none; background: white;
+    }
+    .split { display: flex; flex-direction: column; height: 100%; }
+    .split > div { height: 50%; position: relative; }
+    .split > div:first-child { border-bottom: 2px solid var(--border); }
+    .lesson-nav {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border);
+    }
+    .tip {
+      background: var(--surface); border-left: 3px solid var(--secondary);
+      padding: 16px; border-radius: 8px; margin: 20px 0;
+    }
+    .color-demo {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 16px 0;
+    }
+    .color-box {
+      height: 40px; border-radius: 6px; display: flex; align-items: center; 
+      justify-content: center; font-size: 12px; font-family: var(--font-mono);
+    }
+    @media (max-width: 1024px) {
+      .lesson-wrap { grid-template-columns: 1fr; }
+      .editor-wrap { position: relative; top: 0; height: 600px; }
+      .lesson-content { padding-right: 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <a href="../index.html" class="logo">SHIPhtml</a>
+      <div class="nav-links">
+        <a href="../learn.html" class="active">Lessons</a>
+        <a href="../playground.html">Playground</a>
+        <button class="btn btn-ghost btn-sm" onclick="toggleTheme()" id="themeBtn">☀️</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <div class="lesson-wrap">
+        <div class="lesson-content">
+          <h1>Lesson 6: Colors & Backgrounds</h1>
+          <p>Time: 6 min | Goal: Make your page actually look good</p>
+
+          <h2>3 Ways to Write Colors</h2>
+          <p><strong>1. Named colors</strong> - 140 built-ins like <code>red</code>, <code>blue</code>, <code>coral</code>:</p>
+          <pre><code>p { color: orange; }</code></pre>
+
+          <p><strong>2. Hex codes</strong> - <code>#RRGGBB</code>. Most common. <code>#FF6A00</code> = SHIPhtml orange:</p>
+          <pre><code>h1 { color: #FF6A00; }</code></pre>
+
+          <p><strong>3. RGB</strong> - <code>rgb(red, green, blue)</code> from 0-255:</p>
+          <pre><code>div { background-color: rgb(37, 99, 235); }</code></pre>
+
+          <div class="color-demo">
+            <div class="color-box" style="background: #FF6A00; color: white;">#FF6A00</div>
+            <div class="color-box" style="background: #2563EB; color: white;">#2563EB</div>
+            <div class="color-box" style="background: #0F172A; color: white;">#0F172A</div>
+          </div>
+
+          <h2>color vs background-color</h2>
+          <p><code>color</code> = text color. <code>background-color</code> = behind the text:</p>
+          <pre><code>.banner {
+  color: white;
+  background-color: #0F172A;
+  padding: 20px;
+}</code></pre>
+
+          <div class="tip">
+            <strong>Contrast matters:</strong> Use coolors.co to check if text is readable. White on yellow = bad. White on <code>#0F172A</code> = good.
+          </div>
+
+          <h2>Your Task</h2>
+          <p>In the editor → Style the card:</p>
+          <p>1. Give <code>.card</code> a <code>background-color: #F1F5F9;</code></p>
+          <p>2. Make <code>.card h2</code> have <code>color: #2563EB;</code></p>
+          <p>3. Make <code>.card p</code> have <code>color: #475569;</code></p>
+          <p>4. Add <code>padding: 24px;</code> to <code>.card</code></p>
+          <p>Click <strong>Run</strong> to see your styled card.</p>
+
+          <div class="lesson-nav">
+            <a href="lesson-5.html" class="btn btn-ghost">← Lesson 5</a>
+            <button class="btn btn-primary" onclick="completeLesson()">Mark Complete →</button>
+          </div>
+        </div>
+
+        <div class="editor-wrap">
+          <div class="editor-bar">
+            <span>index.html</span>
+            <button class="btn btn-primary btn-sm" onclick="runCode()">Run ▶</button>
+          </div>
+          <div class="split">
+            <div>
+              <textarea id="editor" spellcheck="false">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Color Practice&lt;/title&gt;
+    &lt;style&gt;
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+      }
+      
+      .card {
+        border-radius: 12px;
+        /* Add background-color and padding here */
+        
+      }
+      
+      .card h2 {
+        margin-top: 0;
+        /* Add color here */
+        
+      }
+      
+      .card p {
+        /* Add color here */
+        
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div class="card"&gt;
+      &lt;h2&gt;SHIPhtml Pro&lt;/h2&gt;
+      &lt;p&gt;Learn HTML + CSS on mobile. No laptop needed.&lt;/p&gt;
+      &lt;p&gt;Build real projects while you commute.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</textarea>
+            </div>
+            <div>
+              <iframe id="preview"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/main.js"></script>
+  <script>
+    function runCode() {
+      const code = document.getElementById('editor').value;
+      const preview = document.getElementById('preview');
+      preview.srcdoc = code;
+    }
+
+    function completeLesson() {
+      localStorage.setItem('lesson-6-complete', 'true');
+      alert('Lesson 6 complete! 6 day streak 🔥');
+      window.location.href = '../learn.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      runCode();
+    });
+  </script>
+</body>
+</html>
