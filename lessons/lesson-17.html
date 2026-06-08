@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 17: Pseudo-elements - SHIPhtml</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .lesson-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 32px 0; }
+    .lesson-content { padding-right: 16px; }
+    .lesson-content h1 { font-size: 36px; margin-bottom: 8px; }
+    .lesson-content h2 { font-size: 22px; margin: 32px 0 12px; }
+    .lesson-content p { color: var(--text-muted); margin-bottom: 16px; }
+    .lesson-content code {
+      background: var(--surface); padding: 2px 6px; border-radius: 6px;
+      font-family: var(--font-mono); font-size: 14px; border: 1px solid var(--border);
+    }
+    .lesson-content pre {
+      background: var(--surface); padding: 16px; border-radius: var(--radius);
+      border: 1px solid var(--border); overflow-x: auto; margin: 16px 0;
+      font-family: var(--font-mono); font-size: 14px; line-height: 1.5;
+    }
+    .editor-wrap {
+      background: var(--surface); border: 2px solid var(--border);
+      border-radius: var(--radius); overflow: hidden; position: sticky; top: 88px;
+      height: calc(100vh - 120px); display: flex; flex-direction: column;
+    }
+    .editor-bar {
+      padding: 12px 16px; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--bg);
+    }
+    .editor-bar span { font-size: 13px; color: var(--text-muted); font-weight: 600; }
+    #editor {
+      width: 100%; flex: 1; background: #1E1E1E; color: #D4D4D4;
+      font-family: var(--font-mono); font-size: 14px; line-height: 1.6;
+      border: none; outline: none; resize: none; padding: 16px;
+    }
+    #preview {
+      width: 100%; flex: 1; border: none; background: white;
+    }
+    .split { display: flex; flex-direction: column; height: 100%; }
+    .split > div { height: 50%; position: relative; }
+    .split > div:first-child { border-bottom: 2px solid var(--border); }
+    .lesson-nav {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border);
+    }
+    .tip {
+      background: var(--surface); border-left: 3px solid var(--secondary);
+      padding: 16px; border-radius: 8px; margin: 20px 0;
+    }
+    .warning {
+      background: var(--surface); border-left: 3px solid var(--warning);
+      padding: 16px; border-radius: 8px; margin: 20px 0;
+    }
+    @media (max-width: 1024px) {
+      .lesson-wrap { grid-template-columns: 1fr; }
+      .editor-wrap { position: relative; top: 0; height: 600px; }
+      .lesson-content { padding-right: 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <a href="../index.html" class="logo">SHIPhtml</a>
+      <div class="nav-links">
+        <a href="../learn.html" class="active">Lessons</a>
+        <a href="../playground.html">Playground</a>
+        <button class="btn btn-ghost btn-sm" onclick="toggleTheme()" id="themeBtn">☀️</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <div class="lesson-wrap">
+        <div class="lesson-content">
+          <h1>Lesson 17: Pseudo-elements</h1>
+          <p>Time: 8 min | Goal: Style parts of elements or inject content with CSS</p>
+
+          <h2>::before and ::after</h2>
+          <p>Inject content without touching HTML. Must have <code>content</code> property:</p>
+          <pre><code>.quote::before {
+  content: "“";
+  font-size: 48px;
+  color: #2563EB;
+}
+.quote::after {
+  content: "”";
+}</code></pre>
+
+          <h2>Common Uses</h2>
+          <p><strong>1. Icons</strong> - Add arrows, bullets without images</p>
+          <p><strong>2. Decorative lines</strong> - Underlines, separators</p>
+          <p><strong>3. Tooltips</strong> - Extra info on hover</p>
+          <p><strong>4. Clearfixes</strong> - <code>::after { clear: both; }</code></p>
+
+          <h2>Other Pseudo-elements</h2>
+          <p><code>::first-letter</code> - Style first letter like magazines</p>
+          <p><code>::first-line</code> - Style first line of text</p>
+          <p><code>::selection</code> - Style highlighted text</p>
+          <pre><code>p::first-letter {
+  font-size: 48px;
+  float: left;
+  line-height: 1;
+}
+::selection {
+  background: #FEF3C7;
+}</code></pre>
+
+          <div class="warning">
+            <strong>Double colon ::</strong> Modern syntax. Single <code>:before</code> still works but <code>::before</code> is correct. Pseudo-classes use <code>:</code>, pseudo-elements use <code>::</code>.
+          </div>
+
+          <div class="tip">
+            <strong>Content property:</strong> <code>content: "";</code> creates empty box you can style. <code>content: attr(data-text);</code> pulls from HTML attributes. Can't select ::before text with mouse.
+          </div>
+
+          <h2>Your Task</h2>
+          <p>Style a quote block with pseudo-elements:</p>
+          <p>1. <code>.quote::before</code> → <code>content: "“";</code> + <code>font-size: 64px;</code> + <code>color: #2563EB;</code> + <code>position: absolute;</code></p>
+          <p>2. <code>.quote::after</code> → <code>content: "";</code> + <code>width: 40px;</code> + <code>height: 3px;</code> + <code>background: #2563EB;</code></p>
+          <p>3. <code>.quote p::first-letter</code> → <code>font-size: 48px;</code> + <code>font-weight: 700;</code></p>
+          <p>4. <code>::selection</code> → <code>background: #FEF3C7;</code></p>
+          <p>Try highlighting text to see selection color.</p>
+
+          <div class="lesson-nav">
+            <a href="lesson-16.html" class="btn btn-ghost">← Lesson 16</a>
+            <button class="btn btn-primary" onclick="completeLesson()">Mark Complete →</button>
+          </div>
+        </div>
+
+        <div class="editor-wrap">
+          <div class="editor-bar">
+            <span>index.html</span>
+            <button class="btn btn-primary btn-sm" onclick="runCode()">Run ▶</button>
+          </div>
+          <div class="split">
+            <div>
+              <textarea id="editor" spellcheck="false">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Pseudo-elements&lt;/title&gt;
+    &lt;style&gt;
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #F8FAFC;
+        padding: 40px 20px;
+      }
+      
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      
+      .quote {
+        background: white;
+        padding: 48px 32px 32px;
+        border-radius: 16px;
+        border: 2px solid #E2E8F0;
+        position: relative;
+      }
+      
+      /* Add ::before for opening quote */
+      
+      
+      /* Add ::after for decorative line */
+      
+      
+      .quote p {
+        font-size: 18px;
+        line-height: 1.8;
+        color: #0F172A;
+        margin: 0 0 16px;
+      }
+      
+      /* Add p::first-letter styles */
+      
+      
+      .author {
+        font-weight: 600;
+        color: #64748B;
+        text-align: right;
+      }
+      
+      /* Add ::selection styles */
+      
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div class="container"&gt;
+      &lt;div class="quote"&gt;
+        &lt;p&gt;The best way to learn web development is to build things. Start small, ship fast, iterate. Your first site won't be perfect, and that's the point.&lt;/p&gt;
+        &lt;div class="author"&gt;— SHIPhtml&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</textarea>
+            </div>
+            <div>
+              <iframe id="preview"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/main.js"></script>
+  <script>
+    function runCode() {
+      const code = document.getElementById('editor').value;
+      const preview = document.getElementById('preview');
+      preview.srcdoc = code;
+    }
+
+    function completeLesson() {
+      localStorage.setItem('lesson-17-complete', 'true');
+      alert('Lesson 17 complete! 17 day streak 🔥');
+      window.location.href = '../learn.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      runCode();
+    });
+  </script>
+</body>
+            </html>
