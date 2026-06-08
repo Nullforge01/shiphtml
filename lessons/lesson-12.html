@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 12: Tables - SHIPhtml</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .lesson-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 32px 0; }
+    .lesson-content { padding-right: 16px; }
+    .lesson-content h1 { font-size: 36px; margin-bottom: 8px; }
+    .lesson-content h2 { font-size: 22px; margin: 32px 0 12px; }
+    .lesson-content p { color: var(--text-muted); margin-bottom: 16px; }
+    .lesson-content code {
+      background: var(--surface); padding: 2px 6px; border-radius: 6px;
+      font-family: var(--font-mono); font-size: 14px; border: 1px solid var(--border);
+    }
+    .lesson-content pre {
+      background: var(--surface); padding: 16px; border-radius: var(--radius);
+      border: 1px solid var(--border); overflow-x: auto; margin: 16px 0;
+      font-family: var(--font-mono); font-size: 14px; line-height: 1.5;
+    }
+    .editor-wrap {
+      background: var(--surface); border: 2px solid var(--border);
+      border-radius: var(--radius); overflow: hidden; position: sticky; top: 88px;
+      height: calc(100vh - 120px); display: flex; flex-direction: column;
+    }
+    .editor-bar {
+      padding: 12px 16px; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--bg);
+    }
+    .editor-bar span { font-size: 13px; color: var(--text-muted); font-weight: 600; }
+    #editor {
+      width: 100%; flex: 1; background: #1E1E1E; color: #D4D4D4;
+      font-family: var(--font-mono); font-size: 14px; line-height: 1.6;
+      border: none; outline: none; resize: none; padding: 16px;
+    }
+    #preview {
+      width: 100%; flex: 1; border: none; background: white;
+    }
+    .split { display: flex; flex-direction: column; height: 100%; }
+    .split > div { height: 50%; position: relative; }
+    .split > div:first-child { border-bottom: 2px solid var(--border); }
+    .lesson-nav {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border);
+    }
+    .tip {
+      background: var(--surface); border-left: 3px solid var(--secondary);
+      padding: 16px; border-radius: 8px; margin: 20px 0;
+    }
+    .warning {
+      background: var(--surface); border-left: 3px solid var(--warning);
+      padding: 16px; border-radius: 8px; margin: 20px 0;
+    }
+    @media (max-width: 1024px) {
+      .lesson-wrap { grid-template-columns: 1fr; }
+      .editor-wrap { position: relative; top: 0; height: 600px; }
+      .lesson-content { padding-right: 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <a href="../index.html" class="logo">SHIPhtml</a>
+      <div class="nav-links">
+        <a href="../learn.html" class="active">Lessons</a>
+        <a href="../playground.html">Playground</a>
+        <button class="btn btn-ghost btn-sm" onclick="toggleTheme()" id="themeBtn">☀️</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <div class="lesson-wrap">
+        <div class="lesson-content">
+          <h1>Lesson 12: Tables</h1>
+          <p>Time: 8 min | Goal: Display tabular data correctly</p>
+
+          <h2>Table Structure</h2>
+          <p>Tables are for data, not layout. Use flexbox/grid for layout.</p>
+          <pre><code>&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Name&lt;/th&gt;
+      &lt;th&gt;Role&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Alex&lt;/td&gt;
+      &lt;td&gt;Dev&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+
+          <h2>The Tags</h2>
+          <p><strong>1. &lt;table&gt;</strong> - Wraps everything</p>
+          <p><strong>2. &lt;thead&gt;</strong> - Table header section</p>
+          <p><strong>3. &lt;tbody&gt;</strong> - Table body section</p>
+          <p><strong>4. &lt;tr&gt;</strong> - Table row</p>
+          <p><strong>5. &lt;th&gt;</strong> - Table header cell. Bold + centered by default</p>
+          <p><strong>6. &lt;td&gt;</strong> - Table data cell. Normal text</p>
+
+          <div class="warning">
+            <strong>Never use tables for layout.</strong> Screen readers read tables row by row. Using tables for design breaks accessibility. Use CSS Grid or Flexbox instead.
+          </div>
+
+          <h2>Styling Tables</h2>
+          <p>Tables need CSS to look good. Remove default spacing:</p>
+          <pre><code>table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #E2E8F0;
+}
+th {
+  background: #F1F5F9;
+  font-weight: 600;
+}</code></pre>
+
+          <div class="tip">
+            <strong>Mobile tables:</strong> Tables suck on phones. Use <code>overflow-x: auto</code> on a wrapper div to make them scrollable horizontally. Or stack cells on mobile with flexbox.
+          </div>
+
+          <h2>Your Task</h2>
+          <p>Build a pricing table in the editor:</p>
+          <p>1. Add <code>&lt;thead&gt;</code> with <code>&lt;tr&gt;</code> + 3 <code>&lt;th&gt;</code>: Plan, Price, Features</p>
+          <p>2. Add <code>&lt;tbody&gt;</code> with 2 <code>&lt;tr&gt;</code> rows</p>
+          <p>3. Row 1: Free, $0, "Basic HTML"</p>
+          <p>4. Row 2: Pro, $9, "HTML + CSS + Projects"</p>
+          <p>5. Style table with <code>border-collapse: collapse</code> and padding</p>
+          <p>Click <strong>Run</strong> to see your data table.</p>
+
+          <div class="lesson-nav">
+            <a href="lesson-11.html" class="btn btn-ghost">← Lesson 11</a>
+            <button class="btn btn-primary" onclick="completeLesson()">Mark Complete →</button>
+          </div>
+        </div>
+
+        <div class="editor-wrap">
+          <div class="editor-bar">
+            <span>index.html</span>
+            <button class="btn btn-primary btn-sm" onclick="runCode()">Run ▶</button>
+          </div>
+          <div class="split">
+            <div>
+              <textarea id="editor" spellcheck="false">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Pricing Table&lt;/title&gt;
+    &lt;style&gt;
+      body {
+        font-family: Arial, sans-serif;
+        background: #F8FAFC;
+        padding: 40px 20px;
+      }
+      
+      .table-wrap {
+        max-width: 600px;
+        margin: 0 auto;
+        background: white;
+        padding: 32px;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        overflow-x: auto;
+      }
+      
+      h1 {
+        margin: 0 0 24px;
+        text-align: center;
+      }
+      
+      table {
+        width: 100%;
+        /* Add border-collapse */
+        
+      }
+      
+      th, td {
+        /* Add padding, text-align, border-bottom */
+        
+      }
+      
+      th {
+        /* Add background, font-weight */
+        
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div class="table-wrap"&gt;
+      &lt;h1&gt;SHIPhtml Plans&lt;/h1&gt;
+      &lt;table&gt;
+        &lt;!-- Add thead with tr + th cells --&gt;
+        
+        &lt;!-- Add tbody with 2 tr rows + td cells --&gt;
+        
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</textarea>
+            </div>
+            <div>
+              <iframe id="preview"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/main.js"></script>
+  <script>
+    function runCode() {
+      const code = document.getElementById('editor').value;
+      const preview = document.getElementById('preview');
+      preview.srcdoc = code;
+    }
+
+    function completeLesson() {
+      localStorage.setItem('lesson-12-complete', 'true');
+      alert('Lesson 12 complete! 12 day streak 🔥');
+      window.location.href = '../learn.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      runCode();
+    });
+  </script>
+</body>
+  </html>
