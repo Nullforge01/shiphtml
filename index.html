@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTMLBase - Build the web from scratch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">HTMLBase</a>
+      <div class="nav-links">
+        <a href="learn.html">Lessons</a>
+        <a href="playground.html">Playground</a>
+        <button class="btn btn-ghost btn-sm" onclick="toggleTheme()" id="themeBtn">☀️</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <section class="hero">
+        <h1>Build the web from scratch</h1>
+        <p>Learn HTML, CSS, and JavaScript with a live code editor in every lesson. No videos to pause. No installs to debug. Just code.</p>
+        <a href="learn.html" class="btn btn-primary">Start Learning Free →</a>
+      </section>
+      
+      <section class="features">
+        <div class="feature">
+          <h3>Code in your browser</h3>
+          <p>Every lesson has a live editor. Edit code, hit Run, see results instantly. No setup needed.</p>
+        </div>
+        <div class="feature">
+          <h3>Short, focused lessons</h3>
+          <p>One concept per lesson. 5 minutes to read, 5 minutes to practice. Finish all 25 and you can ship real sites.</p>
+        </div>
+        <div class="feature">
+          <h3>Ship real projects</h3>
+          <p>Portfolio site, image gallery, todo app with save. Things you can actually show friends and employers.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      Made for beginners. No login needed. <span id="streak"></span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
