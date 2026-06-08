@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 3: Links & Images - HTMLBase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .lesson-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 32px 0; }
+    .lesson-content { padding-right: 16px; }
+    .lesson-content h1 { font-size: 36px; margin-bottom: 8px; }
+    .lesson-content h2 { font-size: 22px; margin: 32px 0 12px; }
+    .lesson-content p { color: var(--text-muted); margin-bottom: 16px; }
+    .lesson-content code {
+      background: var(--surface); padding: 2px 6px; border-radius: 6px;
+      font-family: var(--font-mono); font-size: 14px; border: 1px solid var(--border);
+    }
+    .lesson-content pre {
+      background: var(--surface); padding: 16px; border-radius: var(--radius);
+      border: 1px solid var(--border); overflow-x: auto; margin: 16px 0;
+      font-family: var(--font-mono); font-size: 14px; line-height: 1.5;
+    }
+    .editor-wrap {
+      background: var(--surface); border: 2px solid var(--border);
+      border-radius: var(--radius); overflow: hidden; position: sticky; top: 88px;
+      height: calc(100vh - 120px); display: flex; flex-direction: column;
+    }
+    .editor-bar {
+      padding: 12px 16px; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--bg);
+    }
+    .editor-bar span { font-size: 13px; color: var(--text-muted); font-weight: 600; }
+    #editor {
+      width: 100%; flex: 1; background: #1E1E1E; color: #D4D4D4;
+      font-family: var(--font-mono); font-size: 14px; line-height: 1.6;
+      border: none; outline: none; resize: none; padding: 16px;
+    }
+    #preview {
+      width: 100%; flex: 1; border: none; background: white;
+    }
+    .split { display: flex; flex-direction: column; height: 100%; }
+    .split > div { height: 50%; position: relative; }
+    .split > div:first-child { border-bottom: 2px solid var(--border); }
+    .lesson-nav {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border);
+    }
+    .tip {
+      background: var(--surface); border-left: 3px solid var(--secondary);
+      padding: 16px; border-radius: 8px; margin: 20px 0;
+    }
+    .warning {
+      background: var(--surface); border-left: 3px solid var(--warning);
+      padding: 16px; border-radius: 8px; margin: 20px 0;
+    }
+    @media (max-width: 1024px) {
+      .lesson-wrap { grid-template-columns: 1fr; }
+      .editor-wrap { position: relative; top: 0; height: 600px; }
+      .lesson-content { padding-right: 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <a href="../index.html" class="logo">HTMLBase</a>
+      <div class="nav-links">
+        <a href="../learn.html" class="active">Lessons</a>
+        <a href="../playground.html">Playground</a>
+        <button class="btn btn-ghost btn-sm" onclick="toggleTheme()" id="themeBtn">☀️</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <div class="lesson-wrap">
+        <div class="lesson-content">
+          <h1>Lesson 3: Links & Images</h1>
+          <p>Time: 7 min | Goal: Connect pages + show pictures</p>
+
+          <h2>Links: The &lt;a&gt; Tag</h2>
+          <p>The <code>&lt;a&gt;</code> tag = anchor. It makes text clickable. <code>href</code> = where it goes.</p>
+          <pre><code>&lt;a href="https://google.com"&gt;Go to Google&lt;/a&gt;
+&lt;a href="lesson-2.html"&gt;Previous Lesson&lt;/a&gt;</code></pre>
+
+          <p><strong>2 types of paths:</strong></p>
+          <p>1. <strong>Absolute</strong>: <code>https://example.com</code> = full URL, goes anywhere</p>
+          <p>2. <strong>Relative</strong>: <code>lesson-2.html</code> = file in same folder. <code>../index.html</code> = go up one folder</p>
+
+          <div class="tip">
+            <strong>Target blank:</strong> Add <code>target="_blank"</code> to open link in new tab. <code>&lt;a href="https://google.com" target="_blank"&gt;Google&lt;/a&gt;</code>
+          </div>
+
+          <h2>Images: The &lt;img&gt; Tag</h2>
+          <p><code>&lt;img&gt;</code> is self-closing. No <code>&lt;/img&gt;</code>. Needs 2 attributes:</p>
+          <pre><code>&lt;img src="photo.jpg" alt="Description of photo"&gt;</code></pre>
+          <p>1. <code>src</code> = source. URL or file path to image</p>
+          <p>2. <code>alt</code> = alt text. Describes image for screen readers + shows if image fails</p>
+
+          <div class="warning">
+            <strong>Always add alt text.</strong> Blind users need it. Google uses it for image search. Empty <code>alt=""</code> = decorative image only.
+          </div>
+
+          <h2>Your Task</h2>
+          <p>In the editor → Add these 3 things:</p>
+          <p>1. A link to <code>../learn.html</code> with text "Back to Lessons"</p>
+          <p>2. A link to <code>https://github.com</code> with <code>target="_blank"</code></p>
+          <p>3. An image: <code>&lt;img src="https://picsum.photos/300/200" alt="Random placeholder image"&gt;</code></p>
+          <p>Click <strong>Run</strong> to see clickable links + image render.</p>
+
+          <div class="lesson-nav">
+            <a href="lesson-2.html" class="btn btn-ghost">← Lesson 2</a>
+            <button class="btn btn-primary" onclick="completeLesson()">Mark Complete →</button>
+          </div>
+        </div>
+
+        <div class="editor-wrap">
+          <div class="editor-bar">
+            <span>index.html</span>
+            <button class="btn btn-primary btn-sm" onclick="runCode()">Run ▶</button>
+          </div>
+          <div class="split">
+            <div>
+              <textarea id="editor" spellcheck="false">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Links & Images&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;My Links Page&lt;/h1&gt;
+    
+    &lt;!-- Add your links here --&gt;
+    &lt;p&gt;&lt;a href=""&gt;Back to Lessons&lt;/a&gt;&lt;/p&gt;
+    
+    &lt;!-- Add external link here --&gt;
+    
+    &lt;!-- Add image here --&gt;
+    
+  &lt;/body&gt;
+&lt;/html&gt;</textarea>
+            </div>
+            <div>
+              <iframe id="preview"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/main.js"></script>
+  <script>
+    function runCode() {
+      const code = document.getElementById('editor').value;
+      const preview = document.getElementById('preview');
+      preview.srcdoc = code;
+    }
+
+    function completeLesson() {
+      localStorage.setItem('lesson-3-complete', 'true');
+      alert('Lesson 3 complete! 3 day streak 🔥');
+      window.location.href = '../learn.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      runCode();
+    });
+  </script>
+</body>
+</html>
