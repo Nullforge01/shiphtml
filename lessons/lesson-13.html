@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 13: Semantic HTML - SHIPhtml</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .lesson-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 32px 0; }
+    .lesson-content { padding-right: 16px; }
+    .lesson-content h1 { font-size: 36px; margin-bottom: 8px; }
+    .lesson-content h2 { font-size: 22px; margin: 32px 0 12px; }
+    .lesson-content p { color: var(--text-muted); margin-bottom: 16px; }
+    .lesson-content code {
+      background: var(--surface); padding: 2px 6px; border-radius: 6px;
+      font-family: var(--font-mono); font-size: 14px; border: 1px solid var(--border);
+    }
+    .lesson-content pre {
+      background: var(--surface); padding: 16px; border-radius: var(--radius);
+      border: 1px solid var(--border); overflow-x: auto; margin: 16px 0;
+      font-family: var(--font-mono); font-size: 14px; line-height: 1.5;
+    }
+    .editor-wrap {
+      background: var(--surface); border: 2px solid var(--border);
+      border-radius: var(--radius); overflow: hidden; position: sticky; top: 88px;
+      height: calc(100vh - 120px); display: flex; flex-direction: column;
+    }
+    .editor-bar {
+      padding: 12px 16px; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--bg);
+    }
+    .editor-bar span { font-size: 13px; color: var(--text-muted); font-weight: 600; }
+    #editor {
+      width: 100%; flex: 1; background: #1E1E1E; color: #D4D4D4;
+      font-family: var(--font-mono); font-size: 14px; line-height: 1.6;
+      border: none; outline: none; resize: none; padding: 16px;
+    }
+    #preview {
+      width: 100%; flex: 1; border: none; background: white;
+    }
+    .split { display: flex; flex-direction: column; height: 100%; }
+    .split > div { height: 50%; position: relative; }
+    .split > div:first-child { border-bottom: 2px solid var(--border); }
+    .lesson-nav {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border);
+    }
+    .tip {
+      background: var(--surface); border-left: 3px solid var(--secondary);
+      padding: 16px; border-radius: 8px; margin: 20px 0;
+    }
+    .semantic-grid {
+      display: grid; gap: 8px; margin: 20px 0; font-size: 13px;
+    }
+    .semantic-item {
+      padding: 8px 12px; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 6px; font-family: var(--font-mono);
+    }
+    @media (max-width: 1024px) {
+      .lesson-wrap { grid-template-columns: 1fr; }
+      .editor-wrap { position: relative; top: 0; height: 600px; }
+      .lesson-content { padding-right: 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <a href="../index.html" class="logo">SHIPhtml</a>
+      <div class="nav-links">
+        <a href="../learn.html" class="active">Lessons</a>
+        <a href="../playground.html">Playground</a>
+        <button class="btn btn-ghost btn-sm" onclick="toggleTheme()" id="themeBtn">☀️</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <div class="lesson-wrap">
+        <div class="lesson-content">
+          <h1>Lesson 13: Semantic HTML</h1>
+          <p>Time: 8 min | Goal: Use tags that describe their meaning</p>
+
+          <h2>Why Semantic > div</h2>
+          <p><code>&lt;div&gt;</code> means nothing. <code>&lt;nav&gt;</code> means navigation. Screen readers, SEO, and other devs understand semantic tags instantly.</p>
+
+          <div class="semantic-grid">
+            <div class="semantic-item">&lt;header&gt; - Intro content, logo, nav</div>
+            <div class="semantic-item">&lt;nav&gt; - Navigation links</div>
+            <div class="semantic-item">&lt;main&gt; - Main page content, only 1 per page</div>
+            <div class="semantic-item">&lt;section&gt; - Thematic grouping of content</div>
+            <div class="semantic-item">&lt;article&gt; - Self-contained content like blog post</div>
+            <div class="semantic-item">&lt;aside&gt; - Sidebar, related content</div>
+            <div class="semantic-item">&lt;footer&gt; - Copyright, links, contact info</div>
+          </div>
+
+          <h2>Page Structure Example</h2>
+          <pre><code>&lt;body&gt;
+  &lt;header&gt;
+    &lt;nav&gt;...&lt;/nav&gt;
+  &lt;/header&gt;
+  &lt;main&gt;
+    &lt;section&gt;
+      &lt;article&gt;...&lt;/article&gt;
+    &lt;/section&gt;
+    &lt;aside&gt;...&lt;/aside&gt;
+  &lt;/main&gt;
+  &lt;footer&gt;...&lt;/footer&gt;
+&lt;/body&gt;</code></pre>
+
+          <h2>When to Use What</h2>
+          <p><strong>&lt;section&gt;</strong> = Chapter of content. Has a heading.</p>
+          <p><strong>&lt;article&gt;</strong> = Standalone. Could be RSS feed item.</p>
+          <p><strong>&lt;div&gt;</strong> = Only for styling. No semantic meaning.</p>
+
+          <div class="tip">
+            <strong>SEO boost:</strong> Google ranks semantic HTML higher. <code>&lt;article&gt;</code> tells Google this is the main content. <code>&lt;nav&gt;</code> tells it to ignore links for content ranking.
+          </div>
+
+          <h2>Your Task</h2>
+          <p>Convert the div soup to semantic HTML:</p>
+          <p>1. Change outer <code>&lt;div class="header"&gt;</code> to <code>&lt;header&gt;</code></p>
+          <p>2. Change <code>&lt;div class="nav"&gt;</code> to <code>&lt;nav&gt;</code></p>
+          <p>3. Change <code>&lt;div class="main"&gt;</code> to <code>&lt;main&gt;</code></p>
+          <p>4. Change <code>&lt;div class="article"&gt;</code> to <code>&lt;article&gt;</code></p>
+          <p>5. Change <code>&lt;div class="footer"&gt;</code> to <code>&lt;footer&gt;</code></p>
+          <p>Keep the classes for styling. Click <strong>Run</strong> - looks identical, but means more.</p>
+
+          <div class="lesson-nav">
+            <a href="lesson-12.html" class="btn btn-ghost">← Lesson 12</a>
+            <button class="btn btn-primary" onclick="completeLesson()">Mark Complete →</button>
+          </div>
+        </div>
+
+        <div class="editor-wrap">
+          <div class="editor-bar">
+            <span>index.html</span>
+            <button class="btn btn-primary btn-sm" onclick="runCode()">Run ▶</button>
+          </div>
+          <div class="split">
+            <div>
+              <textarea id="editor" spellcheck="false">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Semantic Page&lt;/title&gt;
+    &lt;style&gt;
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+      }
+      .header, header {
+        background: #0F172A;
+        color: white;
+        padding: 16px 20px;
+      }
+      .nav, nav {
+        display: flex;
+        gap: 16px;
+        margin-top: 8px;
+      }
+      .nav a, nav a {
+        color: white;
+        text-decoration: none;
+      }
+      .main, main {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 0 20px;
+      }
+      .article, article {
+        margin-bottom: 40px;
+      }
+      .footer, footer {
+        background: #F1F5F9;
+        text-align: center;
+        padding: 24px;
+        color: #64748B;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;!-- Change divs to semantic tags --&gt;
+    &lt;div class="header"&gt;
+      &lt;h1&gt;SHIPhtml Blog&lt;/h1&gt;
+      &lt;div class="nav"&gt;
+        &lt;a href="#"&gt;Home&lt;/a&gt;
+        &lt;a href="#"&gt;Lessons&lt;/a&gt;
+        &lt;a href="#"&gt;About&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;div class="main"&gt;
+      &lt;div class="article"&gt;
+        &lt;h2&gt;Why Semantic HTML Matters&lt;/h2&gt;
+        &lt;p&gt;Semantic tags help screen readers navigate your site. They also improve SEO and make code easier to maintain.&lt;/p&gt;
+        &lt;p&gt;Using &lt;code&gt;&lt;nav&gt;&lt;/code&gt; instead of &lt;code&gt;&lt;div class="nav"&gt;&lt;/code&gt; tells browsers exactly what that section does.&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;div class="footer"&gt;
+      &lt;p&gt;© 2026 SHIPhtml. Built on mobile.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</textarea>
+            </div>
+            <div>
+              <iframe id="preview"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/main.js"></script>
+  <script>
+    function runCode() {
+      const code = document.getElementById('editor').value;
+      const preview = document.getElementById('preview');
+      preview.srcdoc = code;
+    }
+
+    function completeLesson() {
+      localStorage.setItem('lesson-13-complete', 'true');
+      alert('Lesson 13 complete! 13 day streak 🔥');
+      window.location.href = '../learn.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      runCode();
+    });
+  </script>
+</body>
+</html>
